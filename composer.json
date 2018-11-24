@@ -1,5 +1,5 @@
 {
-    "name": "web3p/rlp",
+    "name": "minter/php-rlp",
     "description": "Recursive Length Prefix Encoding in PHP.",
     "type": "library",
     "license": "MIT",
