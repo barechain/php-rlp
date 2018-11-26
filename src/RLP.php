@@ -155,7 +155,7 @@ class RLP
             }
             return [
                 'data' => $decoded,
-                'remainder' => $input->slice($length)
+                'remainder' => $input->slice($totalLength)
             ];
         }
     }
@@ -244,7 +244,7 @@ class RLP
      */
     protected function toBuffer($input)
     {
-        if (is_string($input)) {
+        if (is_string($input) && !is_numeric($input)) {
             if (strpos($input, '0x') === 0) {
                 // hex string
                 // $input = str_replace('0x', '', $input);
