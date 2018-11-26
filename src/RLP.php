@@ -244,7 +244,7 @@ class RLP
      */
     protected function toBuffer($input)
     {
-        if (is_string($input) && !is_numeric($input)) {
+        if (is_string($input) && !is_numeric($input) || $input === '0') {
             if (strpos($input, '0x') === 0) {
                 // hex string
                 // $input = str_replace('0x', '', $input);
