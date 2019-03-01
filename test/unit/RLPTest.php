@@ -82,7 +82,7 @@ class RLPTest extends TestCase
         $this->assertEquals('80', $rlp->encode(0x0)->toString('hex'));
         $this->assertEquals('80', $rlp->encode(-1)->toString('hex'));
         $this->assertEquals('80', $rlp->encode(-2)->toString('hex'));
-        $this->assertEquals('30', $rlp->encode('0')->toString('hex'));
+        $this->assertEquals('80', $rlp->encode('0')->toString('hex'));
         $this->assertEquals('00', $rlp->encode('0x0')->toString('hex'));
         $this->assertEquals('80', $rlp->encode(null)->toString('hex'));
     }
