@@ -1,14 +1,5 @@
 <?php
 
-/**
- * This file is part of rlp package.
- * 
- * (c) Kuan-Cheng,Lai <alk03073135@gmail.com>
- * 
- * @author Peter Lai <alk03073135@gmail.com>
- * @license MIT
- */
-
 namespace Web3p\RLP;
 
 use InvalidArgumentException;
@@ -18,26 +9,26 @@ class Buffer implements ArrayAccess
 {
     /**
      * data
-     * 
+     *
      * @var array
      */
     protected $data = [];
 
     /**
      * encoding
-     * 
+     *
      * @var string
      */
     protected $encoding = '';
 
     /**
      * construct
-     * 
-     * @param mixed $data
+     *
+     * @param mixed  $data
      * @param string $encoding the data encoding
      * @return void
      */
-    public function __construct($data=[], string $encoding='utf8')
+    public function __construct($data = [], string $encoding = 'utf8')
     {
         $this->encoding = strtolower($encoding);
 
@@ -48,7 +39,7 @@ class Buffer implements ArrayAccess
 
     /**
      * offsetSet
-     * 
+     *
      * @param mixed $offset
      * @param mixed $value
      * @return void
@@ -64,7 +55,7 @@ class Buffer implements ArrayAccess
 
     /**
      * offsetExists
-     * 
+     *
      * @param mixed $offset
      * @return bool
      */
@@ -75,7 +66,7 @@ class Buffer implements ArrayAccess
 
     /**
      * offsetUnset
-     * 
+     *
      * @param mixed $offset
      * @return void
      */
@@ -86,7 +77,7 @@ class Buffer implements ArrayAccess
 
     /**
      * offsetGet
-     * 
+     *
      * @param mixed $offset
      * @return mixed
      */
@@ -97,53 +88,25 @@ class Buffer implements ArrayAccess
 
     /**
      * toString
-     * 
-     * @param string $encoding
+     *
      * @return string
      */
-    public function toString(string $encoding='utf8')
+    public function toString()
     {
         $output = '';
-        $input = $this->data;
-
-        switch ($encoding) {
-            case 'hex':
-            foreach ($input as $data)  {
-                $hex = dechex($data);
-
-                // pad zero
-                if ((strlen($hex) % 2) !== 0) {
-                    $hex = '0' . $hex;
-                }
-                $output .= $hex;
-            }
-            break;
-            case 'ascii':
-            foreach ($input as $data)  {
-                $output .= chr($data);
-            }
-            break;
-            case 'utf8':
-            // $length = count($input);
-
-            // for ($i = array_keys($input)[0]; $i < $length; $i += 3) {
-            //     $output .= chr($input[$i]) . chr($input[$i + 1]) . chr($input[$i + 2]);
-            // }
-            // change to bytes string
-            foreach ($input as $data)  {
-                $output .= chr($data);
-            }
-            break;
-            default:
-            throw new InvalidArgumentException('ToString encoding must be valid.');
-            break;
+        $input  = $this->data;
+        foreach ($input as $data) {
+            $hex = dechex($data);
+            $hex = strlen($hex) % 2 !== 0 ? '0' . $hex : $hex;
+            $output .= $hex;
         }
+
         return $output;
     }
 
     /**
      * length
-     * 
+     *
      * @return int
      */
     public function length()
@@ -153,9 +116,8 @@ class Buffer implements ArrayAccess
 
     /**
      * concat
-     * 
-     * @param mixed $inputs
-     * @return \RLP\Buffer
+     *
+     * @return Buffer
      */
     public function concat()
     {
@@ -180,28 +142,31 @@ class Buffer implements ArrayAccess
 
     /**
      * slice
-     * 
-     * @param int $start
+     *
+     * @param int   $start
      * @param mixed $end
-     * @return \RLP\Buffer
+     * @return Buffer
      */
-    public function slice(int $start=0, $end=null)
+    public function slice(int $start = 0, $end = null)
     {
         if ($end === null) {
             $end = $this->length();
         }
+
         if ($end > 0) {
             $end -= $start;
-        } elseif ($end === 0) {
+        } else if ($end === 0) {
             return new Buffer([]);
         }
+
         $sliced = array_slice($this->data, $start, $end);
+
         return new Buffer($sliced);
     }
 
     /**
      * decodeToData
-     * 
+     *
      * @param mixed $input
      * @return array
      */
@@ -211,11 +176,11 @@ class Buffer implements ArrayAccess
 
         if (is_array($input)) {
             $output = $this->arrayToData($input);
-        } elseif (is_int($input)) {
+        } else if (is_int($input)) {
             $output = $this->intToData($input);
-        } elseif (is_numeric($input)) {
+        } else if (is_numeric($input)) {
             $output = $this->numericToData($input);
-        } elseif (is_string($input)) {
+        } else if (is_string($input)) {
             $output = $this->stringToData($input, $this->encoding);
         }
         return $output;
@@ -223,7 +188,7 @@ class Buffer implements ArrayAccess
 
     /**
      * arrayToData
-     * 
+     *
      * @param array $inputs
      * @return array
      */
@@ -233,76 +198,60 @@ class Buffer implements ArrayAccess
 
         foreach ($inputs as $input) {
             if (is_array($input)) {
-                // throw exception, maybe support future
-                // $output[] = $this->arrayToData($input);
                 throw new InvalidArgumentException('Do not use multidimensional array.');
-            } elseif (is_string($input)) {
+            } else if (is_string($input)) {
                 $output = array_merge($output, $this->stringToData($input, $this->encoding));
-            } elseif (is_numeric($input)) {
+            } else if (is_numeric($input)) {
                 $output = array_merge($output, $this->numericToData($input));
             }
         }
+
         return $output;
     }
 
     /**
      * stringToData
-     * 
+     *
      * @param string $input
      * @param string $encoding
      * @return array
      */
     protected function stringToData(string $input, string $encoding)
     {
-        $output = [];
-
         switch ($encoding) {
             case 'hex':
-            if (strpos($input, '0x') === 0) {
-                // hex string
-                $input = str_replace('0x', '', $input);
-            }
-            if (strlen($input) % 2 !== 0) {
-                $input = '0' . $input;
-            }
-            // $splited = str_split($input, 2);
+                if (strpos($input, '0x') === 0) {
+                    $input = str_replace('0x', '', $input);
+                }
 
-            // foreach ($splited as $data)  {
-            //     $output[] = hexdec($data);
-            // }
-            $output = array_map('hexdec', str_split($input, 2));
-
-            break;
-            case 'ascii':
-            $output = array_map('ord', str_split($input, 1));
-            break;
+                $input = strlen($input) % 2 !== 0 ? '0' . $input : $input;
+                return array_map('hexdec', str_split($input, 2));
+                break;
             case 'utf8':
-            $output = unpack('C*', $input);
-            break;
-            default:
-            throw new InvalidArgumentException('StringToData encoding must be valid.');
-            break;
+                return unpack('C*', $input);
+                break;
         }
-        return $output;
+
+        throw new InvalidArgumentException('StringToData encoding must be valid.');
     }
 
     /**
      * numericToData
-     * 
-     * @param mixed $intput
+     *
+     * @param mixed $input
      * @return array
      */
-    protected function numericToData($intput)
+    protected function numericToData($input)
     {
-        $output = (int) $intput;
+        $output = (int)$input;
 
         return [$output];
     }
 
     /**
      * intToData
-     * 
-     * @param mixed $intput
+     *
+     * @param $input
      * @return array
      */
     protected function intToData($input)
