@@ -16,11 +16,11 @@ class RLPTest extends TestCase
         $rlp = $this->rlp;
 
         $encoded = $rlp->encode(['dog', 'god', 'cat']);
-        $this->assertEquals('cc83646f6783676f6483636174', $encoded->toString());
+        $this->assertEquals('cc83646f6783676f6483636174', $encoded);
         $this->assertEquals(13, $encoded->length());
 
         $encoded = $rlp->encode(['0xabcd', '0xdeff', '0xaaaa']);
-        $this->assertEquals('c982abcd82deff82aaaa', $encoded->toString());
+        $this->assertEquals('c982abcd82deff82aaaa', $encoded);
         $this->assertEquals(10, $encoded->length());
     }
 
@@ -32,16 +32,16 @@ class RLPTest extends TestCase
     public function testDecode()
     {
         $rlp = $this->rlp;
-        $encoded = '0x' . $rlp->encode(['dog', 'god', 'cat'])->toString();
+        $encoded = '0x' . $rlp->encode(['dog', 'god', 'cat']);
         $decoded = $rlp->decode($encoded);
         $this->assertEquals(3, count($decoded));
 
-        $encoded = '0x' . $rlp->encode(['0xabcd', '0xdeff', '0xaaaa'])->toString();
+        $encoded = '0x' . $rlp->encode(['0xabcd', '0xdeff', '0xaaaa']);
         $decoded = $rlp->decode($encoded);
         $this->assertEquals(3, count($decoded));
-        $this->assertEquals('abcd', $decoded[0]->toString('hex'));
-        $this->assertEquals('deff', $decoded[1]->toString('hex'));
-        $this->assertEquals('aaaa', $decoded[2]->toString('hex'));
+        $this->assertEquals('abcd', $decoded[0]);
+        $this->assertEquals('deff', $decoded[1]);
+        $this->assertEquals('aaaa', $decoded[2]);
     }
 
     /**
@@ -60,7 +60,7 @@ class RLPTest extends TestCase
         foreach ($rlptest as $test) {
             $encoded = $rlp->encode($test['in']);
 
-            $this->assertEquals($test['out'], $encoded->toString('hex'));
+            $this->assertEquals($test['out'], $encoded);
         }
     }
 
@@ -74,13 +74,13 @@ class RLPTest extends TestCase
     public function testIssue14()
     {
         $rlp = $this->rlp;
-        $this->assertEquals('c0', $rlp->encode([])->toString());
-        $this->assertEquals('80', $rlp->encode(0)->toString());
-        $this->assertEquals('80', $rlp->encode(0x0)->toString());
-        $this->assertEquals('80', $rlp->encode(-1)->toString());
-        $this->assertEquals('80', $rlp->encode(-2)->toString());
-        $this->assertEquals('80', $rlp->encode('0')->toString());
-        $this->assertEquals('00', $rlp->encode('0x0')->toString());
-        $this->assertEquals('80', $rlp->encode(null)->toString());
+        $this->assertEquals('c0', $rlp->encode([]));
+        $this->assertEquals('80', $rlp->encode(0));
+        $this->assertEquals('80', $rlp->encode(0x0));
+        $this->assertEquals('80', $rlp->encode(-1));
+        $this->assertEquals('80', $rlp->encode(-2));
+        $this->assertEquals('80', $rlp->encode('0'));
+        $this->assertEquals('00', $rlp->encode('0x0'));
+        $this->assertEquals('80', $rlp->encode(null));
     }
 }

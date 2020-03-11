@@ -33,7 +33,7 @@ $rlp = new RLP;
 $encodedBuffer = $rlp->encode(['dog']);
 
 // only accept 0x prefixed hex string
-$decodedArray = $rlp->decode('0x' . $encodedBuffer->toString('hex'));
+$decodedArray = $rlp->decode('0x' . $encodedBuffer);
 
 // show dog
 echo $decodedArray[0]->toString('utf8');
@@ -60,7 +60,7 @@ use Web3p\RLP\RLP;
 
 $rlp = new RLP;
 $encodedBuffer = $rlp->encode(['web3p', 'ethereum', 'solidity']);
-$encodedString = $encodedBuffer->toString('hex');
+$encodedString = $encodedBuffer;
 
 ```
 
@@ -81,7 +81,7 @@ use Web3p\RLP\RLP;
 
 $rlp = new RLP;
 $encodedBuffer = $rlp->encode(['web3p', 'ethereum', 'solidity']);
-$encodedString = $encodedBuffer->toString('hex');
+$encodedString = $encodedBuffer;
 $decodedArray = $rlp->decode('0x' . $encodedString);
 
 // echo web3p

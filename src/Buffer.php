@@ -87,24 +87,6 @@ class Buffer implements ArrayAccess
     }
 
     /**
-     * toString
-     *
-     * @return string
-     */
-    public function toString()
-    {
-        $output = '';
-        $input  = $this->data;
-        foreach ($input as $data) {
-            $hex = dechex($data);
-            $hex = strlen($hex) % 2 !== 0 ? '0' . $hex : $hex;
-            $output .= $hex;
-        }
-
-        return $output;
-    }
-
-    /**
      * length
      *
      * @return int
@@ -257,5 +239,21 @@ class Buffer implements ArrayAccess
     protected function intToData($input)
     {
         return array_fill(0, $input, 0);
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        $output = '';
+        $input  = $this->data;
+        foreach ($input as $data) {
+            $hex = dechex($data);
+            $hex = strlen($hex) % 2 !== 0 ? '0' . $hex : $hex;
+            $output .= $hex;
+        }
+
+        return $output;
     }
 }

@@ -80,7 +80,7 @@ class RLP
             ];
         } else if ($firstByte <= 0xbf) {
             $llength   = $firstByte - 0xb6;
-            $hexLength = $input->slice(1, $llength)->toString();
+            $hexLength = $input->slice(1, $llength);
 
             if ($hexLength === '00') {
                 throw new RuntimeException('Invalid RLP.');
@@ -112,7 +112,7 @@ class RLP
             ];
         } else {
             $llength   = $firstByte - 0xf6;
-            $hexLength = $input->slice(1, $llength)->toString();
+            $hexLength = $input->slice(1, $llength);
             $decoded   = [];
 
             if ($hexLength === '00') {
