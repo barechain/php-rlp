@@ -1,22 +1,20 @@
-# rlp
+# RLP
 Recursive Length Prefix Encoding in PHP.
 
-[![Build Status](https://travis-ci.org/web3p/rlp.svg?branch=master)](https://travis-ci.org/web3p/rlp)
-[![codecov](https://codecov.io/gh/web3p/rlp/branch/master/graph/badge.svg)](https://codecov.io/gh/web3p/rlp)
 [![Licensed under the MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/web3p/rlp/blob/master/LICENSE)
 
 # Install
 
 Set minimum stability to dev
 ```
-composer require web3p/rlp
+composer require barechain/rlp
 ```
 
 # Usage
 
 RLP encode:
 ```php
-use Web3p\RLP\RLP;
+use Barechain\RLP\RLP;
 
 $rlp = new RLP;
 $encodedBuffer = $rlp->encode(['dog']);
@@ -27,7 +25,7 @@ $encodedBuffer->toString($encoding);
 
 RLP decode:
 ```php
-use Web3p\RLP\RLP;
+use Barechain\RLP\RLP;
 
 $rlp = new RLP;
 $encodedBuffer = $rlp->encode(['dog']);
@@ -41,7 +39,7 @@ echo $decodedArray[0]->toString('utf8');
 
 # API
 
-### Web3p\RLP\RLP
+### Barechain\RLP\RLP
 
 #### encode
 
@@ -56,10 +54,10 @@ Mixed inputs - array of string, integer or numeric string.
 * Encode array of string.
 
 ```php
-use Web3p\RLP\RLP;
+use Barechain\RLP\RLP;
 
 $rlp = new RLP;
-$encodedBuffer = $rlp->encode(['web3p', 'ethereum', 'solidity']);
+$encodedBuffer = $rlp->encode(['barechain', 'ethereum', 'solidity']);
 $encodedString = $encodedBuffer;
 
 ```
@@ -77,14 +75,14 @@ String input - recursive length prefix encoded string.
 * Decode recursive length prefix encoded string.
 
 ```php
-use Web3p\RLP\RLP;
+use Barechain\RLP\RLP;
 
 $rlp = new RLP;
-$encodedBuffer = $rlp->encode(['web3p', 'ethereum', 'solidity']);
+$encodedBuffer = $rlp->encode(['barechain', 'ethereum', 'solidity']);
 $encodedString = $encodedBuffer;
 $decodedArray = $rlp->decode('0x' . $encodedString);
 
-// echo web3p
+// echo barechain
 echo $decodedArray[0]->toString('utf8');
 
 // echo ethereum

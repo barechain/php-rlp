@@ -66,7 +66,6 @@ class RLPTest extends TestCase
 
     /**
      * testIssue14
-     * See: https://github.com/web3p/rlp/issues/14
      * You can find test in: https://github.com/ethereum/wiki/wiki/RLP#examples
      * 
      * @return void

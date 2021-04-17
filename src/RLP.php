@@ -1,6 +1,6 @@
 <?php
 
-namespace Web3p\RLP;
+namespace Barechain\RLP;
 
 use InvalidArgumentException;
 use RuntimeException;

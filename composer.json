@@ -1,12 +1,12 @@
 {
-    "name": "minter/php-rlp",
+    "name": "barechain/rlp",
     "description": "Recursive Length Prefix Encoding in PHP.",
     "type": "library",
     "license": "MIT",
     "authors": [
         {
-            "name": "sc0Vu",
-            "email": "alk03073135@gmail.com"
+            "name": "uranoff235",
+            "email": "uranoff235@gmail.com"
         }
     ],
     "minimum-stability": "dev",
@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Web3p\\RLP\\": "src/"
+            "Barechain\\RLP\\": "src/"
         }
     },
     "autoload-dev": {
